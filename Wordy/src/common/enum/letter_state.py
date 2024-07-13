@@ -2,6 +2,7 @@
 
 import enum
 
+
 class LetterState(enum.Enum):
 
     def __new__(cls, *args, **kwds):

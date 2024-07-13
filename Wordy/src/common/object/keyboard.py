@@ -3,6 +3,7 @@
 from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
 
+
 class Keyboard:
 
     def __init__(self):
