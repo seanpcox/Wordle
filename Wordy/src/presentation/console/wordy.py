@@ -1,12 +1,10 @@
 # @author: seanpcox
 
-import random
 from src.resources.text import wordy_text
 from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
 from src.common.object.keyboard import Keyboard
 from src.application.logic import wordy_logic
-from src.resources.dict.allowed_answers_list import ALLOWED_ANSWERS
 from src.presentation.console.print import console_printer as printer
 
 
@@ -51,7 +49,7 @@ def __print_result(guesses, raw_answer, answer_found):
         printer.print_guess(answer)
 
 
-def run_game(raw_answer, chances=6):
+def start_wordy(raw_answer, chances=6):
     keyboard = Keyboard()
     guesses = []
     answer_found = False
@@ -77,4 +75,8 @@ def run_game(raw_answer, chances=6):
     __print_result(guesses, raw_answer, answer_found)
 
 
-run_game(random.choice(ALLOWED_ANSWERS), 6)
+def wordy():
+    start_wordy(wordy_logic.get_random_answer())
+
+    
+wordy()

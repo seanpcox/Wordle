@@ -1,8 +1,14 @@
 # @author: seanpcox
 
+import random
+from src.resources.dict.allowed_answers_list import ALLOWED_ANSWERS
 from src.resources.dict.allowed_guesses_set import ALLOWED_GUESSES
 from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
+
+
+def get_random_answer():
+    return random.choice(ALLOWED_ANSWERS)
 
 
 def is_guess_allowed(raw_guess, answer_length):
