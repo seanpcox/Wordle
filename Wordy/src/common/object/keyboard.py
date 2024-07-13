@@ -4,9 +4,16 @@ from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
 
 
+# Class to represent our display keyboard where we can mark letters untried, incorrect, wrong position, or correct
+# Note: The keyboard will display the best results so far
+# * If the user previously found a letter but in the wrong position and does not included it in another guess 
+#   we will still display it as being guessed in the wrong position, not that it has not been tried
+# * If the user previously found a correct letter and does not included it in another guess or puts it in the wrong position
+#   we will still display it as being guessed correctly, not that it has not been tried or is in the wrong position
 class Keyboard:
 
     def __init__(self):
+        # Define all keyboard letters
         q_letter = Letter("q", LetterState.NOT_ASSIGNED)
         w_letter = Letter("w", LetterState.NOT_ASSIGNED)
         e_letter = Letter("e", LetterState.NOT_ASSIGNED)
@@ -34,6 +41,7 @@ class Keyboard:
         n_letter = Letter("n", LetterState.NOT_ASSIGNED)
         m_letter = Letter("m", LetterState.NOT_ASSIGNED)
         
+        # Create a dictionary so we can retrieve our Letter objects using the letter value
         self.__letter_dict = {"q":q_letter,
                       "w":w_letter,
                       "e":e_letter,
@@ -61,6 +69,7 @@ class Keyboard:
                       "n":n_letter,
                       "m":m_letter}
         
+        # Row one of a keyboard
         self.__keyboard_row_1 = [q_letter,
                        w_letter,
                        e_letter,
@@ -72,6 +81,7 @@ class Keyboard:
                        o_letter,
                        p_letter]
         
+        # Row two of a keyboard
         self.__keyboard_row_2 = [a_letter,
                        s_letter,
                        d_letter,
@@ -82,6 +92,7 @@ class Keyboard:
                        k_letter,
                        l_letter]
         
+        # Row three of a keyboard
         self.__keyboard_row_3 = [z_letter,
                        x_letter,
                        c_letter,
@@ -90,14 +101,18 @@ class Keyboard:
                        n_letter,
                        m_letter]
     
+    # Function to get a Letter from our keyboard using its letter value
     def get_letter(self, letter):
         return self.__letter_dict.get(letter)
     
+    # Function to get the first row of our display keyboard
     def get_keyboard_row_1(self):
         return self.__keyboard_row_1
     
+    # Function to get the second row of our display keyboard
     def get_keyboard_row_2(self):
         return self.__keyboard_row_2
     
+    # Function to get the third row of our display keyboard
     def get_keyboard_row_3(self):
         return self.__keyboard_row_3
