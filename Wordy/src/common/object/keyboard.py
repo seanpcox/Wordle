@@ -33,7 +33,7 @@ class Keyboard:
         n_letter = Letter("n", LetterState.NOT_ASSIGNED)
         m_letter = Letter("m", LetterState.NOT_ASSIGNED)
         
-        self.__letterDict = {"q":q_letter,
+        self.__letter_dict = {"q":q_letter,
                       "w":w_letter,
                       "e":e_letter,
                       "r":r_letter,
@@ -60,7 +60,7 @@ class Keyboard:
                       "n":n_letter,
                       "m":m_letter}
         
-        self.__keyboardRow1 = [q_letter,
+        self.__keyboard_row_1 = [q_letter,
                        w_letter,
                        e_letter,
                        r_letter,
@@ -71,7 +71,7 @@ class Keyboard:
                        o_letter,
                        p_letter]
         
-        self.__keyboardRow2 = [a_letter,
+        self.__keyboard_row_2 = [a_letter,
                        s_letter,
                        d_letter,
                        f_letter,
@@ -81,7 +81,7 @@ class Keyboard:
                        k_letter,
                        l_letter]
         
-        self.__keyboardRow3 = [z_letter,
+        self.__keyboard_row_3 = [z_letter,
                        x_letter,
                        c_letter,
                        v_letter,
@@ -89,14 +89,14 @@ class Keyboard:
                        n_letter,
                        m_letter]
     
-    def getLetter(self, letter):
-        return self.__letterDict.get(letter)
+    def get_letter(self, letter):
+        return self.__letter_dict.get(letter)
     
-    def getKeyboardRow1(self):
-        return self.__keyboardRow1
+    def get_keyboard_row_1(self):
+        return self.__keyboard_row_1
     
-    def getKeyboardRow2(self):
-        return self.__keyboardRow2
+    def get_keyboard_row_2(self):
+        return self.__keyboard_row_2
     
-    def getKeyboardRow3(self):
-        return self.__keyboardRow3
+    def get_keyboard_row_3(self):
+        return self.__keyboard_row_3

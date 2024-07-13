@@ -3,9 +3,6 @@
 __start_title = """-------------------
      W O R D Y
 -------------------"""
-__instructionText = "Enter {}-letter guess ({}/{}): "
-__invalidGuessLengthText = "Guess must be {} letters"
-__invalidGuessText = "Guess is not in our dictionary"
 
 __win_title = """-------------------
 W E L L   D O N E !
@@ -15,20 +12,31 @@ __lose_title = """-------------------
 H A R D   L U C K !
 -------------------"""
 
-def getStartTitle():
+__answer_line = "     ---------"
+
+__instruction_text = "Enter {}-letter guess ({}/{}): "
+
+__invalid_guess_length_text = "Guess must be {} letters"
+
+__invalid_guess_text = "Guess is not in our dictionary"
+
+def get_start_title():
     return __start_title
 
-def getWinTitle():
+def get_win_title():
     return __win_title
 
-def getLoseTitle():
+def get_lose_title():
     return __lose_title
 
-def getInstruction(answer_length, guess_number, chances):
-    return __instructionText.format(answer_length, guess_number, chances)
+def get_answer_line():
+    return __answer_line
 
-def getInvalidGuessLength(answer_length):
-    return __invalidGuessLengthText.format(answer_length)
+def get_instruction(answer_length, guess_number, chances):
+    return __instruction_text.format(answer_length, guess_number, chances)
 
-def getInvalidGuess():
-    return __invalidGuessText
+def get_invalid_guess_length(answer_length):
+    return __invalid_guess_length_text.format(answer_length)
+
+def get_invalid_guess():
+    return __invalid_guess_text
