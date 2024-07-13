@@ -49,7 +49,7 @@ def __print_result(guesses, raw_answer, answer_found):
         printer.print_guess(answer)
 
 
-def start_wordy(raw_answer, chances=6):
+def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
     keyboard = Keyboard()
     guesses = []
     answer_found = False
@@ -75,8 +75,8 @@ def start_wordy(raw_answer, chances=6):
     __print_result(guesses, raw_answer, answer_found)
 
 
-def wordy():
-    start_wordy(wordy_logic.get_random_answer())
-
-    
+# Launch Wordy with defaults, 6 chances and random word selected from our dictionary    
 wordy()
+
+# Launch Word with custom parameters, 4 chances and a chosen word
+# wordy(4, "snake")
