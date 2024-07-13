@@ -1,14 +1,20 @@
 # @author: seanpcox
 
-__instructionText = "Enter 5-letter guess ({}/6): "
-__invalidInputText = "Guess must be 5 letters"
+__title = """-------------------
+     W O R D Y
+-------------------"""
+__instructionText = "Enter {}-letter guess ({}/{}): "
+__invalidGuessLengthText = "Guess must be {} letters"
 __invalidGuessText = "Guess is not in our dictionary"
 
-def getInstruction(guess_number):
-    return __instructionText.format(guess_number)
+def getTitle():
+    return __title
 
-def getInvalidLength():
-    return __invalidInputText
+def getInstruction(answer_length, guess_number, chances):
+    return __instructionText.format(answer_length, guess_number, chances)
+
+def getInvalidGuessLength(answer_length):
+    return __invalidGuessLengthText.format(answer_length)
 
 def getInvalidGuess():
     return __invalidGuessText

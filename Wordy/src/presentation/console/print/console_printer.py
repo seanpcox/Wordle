@@ -55,15 +55,16 @@ class ConsolePrinter:
                 self.printSpace()
                 
         print()
-        
-    def printGameTitle(self):
-        self.printBlueLine("-------------------")
-        self.printBlueLine("     W O R D Y     ")
-        self.printBlueLine("-------------------")
     
-    def printGuess(self, guess, keyboard):
+    def printGuess(self, guess):
         self.printLetterLine(guess,5,False)
-        self.printEmptyLine()
+
+    def printKeyboard(self, keyboard):
         self.printLetterLine(keyboard.getKeyboardRow1(),0)
         self.printLetterLine(keyboard.getKeyboardRow2(),1)
         self.printLetterLine(keyboard.getKeyboardRow3(),3)
+
+    def printGuessAndKeyboard(self, guess, keyboard):
+        self.printLetterLine(guess,5,False)
+        self.printEmptyLine()
+        self.printKeyboard(keyboard)
