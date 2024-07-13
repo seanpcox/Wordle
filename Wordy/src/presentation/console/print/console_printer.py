@@ -13,6 +13,9 @@ class ConsolePrinter:
     def printRedLine(self, word):
         print("\033[31m{}\033[00m".format(word))
     
+    def printGreenLine(self, word):
+        print("\033[32m{}\033[00m".format(word))
+    
     def printGreenUpper(self, word):
         print("\033[32m{}\033[00m".format(word.upper()), end="", flush=True)
         

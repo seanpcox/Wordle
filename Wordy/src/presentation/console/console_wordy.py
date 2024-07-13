@@ -78,8 +78,23 @@ def isAnswerFound(guess):
         
     return True
 
+def printResult(answerFound):
+    printer.printEmptyLine()
+    
+    if answerFound:
+        printer.printGreenLine(wordy_text.getWinTitle())
+    else:
+        printer.printRedLine(wordy_text.getLoseTitle())
+            
+    printer.printEmptyLine()
+
+    for guess in guesses:
+        printer.printGuess(guess)
+
 def runGame(answer, chances=6):
-    printer.printBlueLine(wordy_text.getTitle())
+    printer.printBlueLine(wordy_text.getStartTitle())
+    
+    answer_found = False
     
     for guessIndex in range(chances):
         guesses.append([])
@@ -94,11 +109,11 @@ def runGame(answer, chances=6):
     
         printer.printGuessAndKeyboard(guesses[guessIndex], keyboard)
             
-        if isAnswerFound(guesses[guessIndex]):
+        answer_found = isAnswerFound(guesses[guessIndex])
+        
+        if answer_found:
             break
 
-    printer.printEmptyLine()
-    for guess in guesses:
-        printer.printGuess(guess)
+    printResult(answer_found)
 
-runGame(random.choice(ALLOWED_ANSWERS),3)
+runGame("sense",3)
