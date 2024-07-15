@@ -1,3 +1,4 @@
 /.metadata/
 Wordy/.settings/
 .DS_Store
+**/__pycache__/

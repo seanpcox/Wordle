@@ -1,27 +1,32 @@
 # @author: seanpcox
 
 import tkinter as tk
+from time import sleep
 from src.application.logic import wordy_logic
+from src.common.enum.letter_state import LetterState
 from src.common.object.keyboard import Keyboard
 from src.resources.text import wordy_text
 
 
 class Wordy(tk.Tk):
 
-    def __init__(self, answer, chances):
+    def __init__(self, raw_answer=wordy_logic.get_random_answer(), chances=6):
         # Set our window title and size
         super(self.__class__, self).__init__()
         self.title(wordy_text.get_ui_title())
         self.geometry('420x270')
         
-        self.answer_length = len(answer)
+        # Set some global variables
+        self.raw_answer = raw_answer
+        self.answer_length = len(raw_answer)
         self.chances = chances
+        self.guesses = []
         
         # Create our guess list at the top of the application
-        self.guess_list = []
+        self.guess_labels = []
         self.guess_row = 0
         self.guess_column = 0
-        py = self.create_guess_list()
+        py = self.create_guess_labels()
         
         # Create our display keyboard at the bottom of the application
         self.keyboard = Keyboard()
@@ -30,11 +35,66 @@ class Wordy(tk.Tk):
 
     # Function to process a user guess
     def process_guess(self):
-        return
+        # Get the guess string by combining the individual letters
+        raw_guess = ""
+        
+        for column in range(self.answer_length):
+            raw_guess += self.guess_labels[self.guess_row][column]["text"]
+        
+        # Test is the guess is allowed i.e. correct length and in our allowed guesses dictionary
+        is_allowed_guess = wordy_logic.is_guess_allowed(raw_guess, self.answer_length)
+        
+        # If our guess is not allowed then return and do not move to the next guess or end of game
+        if not is_allowed_guess:
+            return False
+        
+        # Process our guess to determine which letters are correct, in the wrong place, or not in the answer
+        wordy_logic.process_guess(raw_guess, self.guesses, self.guess_row, self.raw_answer, self.keyboard)
+        
+        # Update our guess labels in the current guess row to indicate each letter's status
+        for column in range(self.answer_length):
+            
+            # Retrieve the letter at the column specified from our processed guess
+            guess_letter = self.guesses[self.guess_row][column]
+            
+            # If the letter is not in the answer, update the corresponding guess label's and keyboard key coloring to indicate
+            # Note we update the keyboard button foreground as MacOS doesn't support changing button background color with Tkinter
+            if guess_letter.state == LetterState.INCORRECT:
+                self.guess_labels[self.guess_row][column]["bg"] = "darkgray"
+                self.keyboard_buttons[guess_letter.value.upper()]["fg"] = "lightgray"
+            # We use a dark gray in our guess display for better visibility
+            # If the letter is not in the answer, update the corresponding guess label's and keyboard key coloring to indicate
+            elif guess_letter.state == LetterState.WRONG_POSITION:
+                self.guess_labels[self.guess_row][column]["bg"] = "goldenrod"
+                self.keyboard_buttons[guess_letter.value.upper()]["fg"] = "goldenrod"
+            # If the letter is not in the answer, update the corresponding guess label's and keyboard key coloring to indicate
+            elif guess_letter.state == LetterState.CORRECT:
+                self.guess_labels[self.guess_row][column]["bg"] = "medium sea green"
+                self.keyboard_buttons[guess_letter.value.upper()]["fg"] = "medium sea green"
+            
+            # Regardless of guessed letter state all labels in the current guess have their foreground updated    
+            self.guess_labels[self.guess_row][column]["fg"] = "white"
+            
+            # We add some sleep time to reveal each letter at a time
+            sleep(0.3)
+            self.update()
+        
+        # Check if our current guess was the answer
+        is_answer_found = wordy_logic.is_answer_found(self.guesses[self.guess_row])
+        
+        if is_answer_found:
+            self.game_over()
+            return False
+        
+        # We had a valid guess but did not find the answer, return True to indicate we can move to next guess
+        return True
     
     # Function to execute when the current game has ended
     def game_over(self):
-        return
+        # Disable all buttons
+        self.set_keyboard_buttons_enabled(False)
+        self.set_delete_button_enabled(False)
+        self.set_enter_button_enabled(False)
     
     # Function to execute a Keyboard Letter action
     def keyboard_press(self, letter):
@@ -43,7 +103,7 @@ class Wordy(tk.Tk):
             return
         
         # Update the container for the current position in the current guess line with the user's letter selection
-        self.guess_list[self.guess_row][self.guess_column]["text"] = letter
+        self.guess_labels[self.guess_row][self.guess_column]["text"] = letter
         
         # Move the column index to the next position
         self.guess_column += 1
@@ -63,12 +123,16 @@ class Wordy(tk.Tk):
         if self.guess_column < self.answer_length:
             return 
         
+        # Process our users current guess
+        is_continue = self.process_guess()
+        
+        # If our guess is not allowed or we have found the answer do not proceed and return
+        if not is_continue:
+            return
+        
         # We are moving onto a new guess or the user has used up all guesses so disable Enter and Delete buttons
         self.set_enter_button_enabled(False)
         self.set_delete_button_enabled(False)
-        
-        # Process our users current guess
-        self.process_guess()
         
         # If this is the last allowed guess process the game over function
         if self.guess_row == self.chances - 1:
@@ -92,7 +156,7 @@ class Wordy(tk.Tk):
         self.guess_column -= 1
         
         # Delete the last letter the user entered
-        self.guess_list[self.guess_row][self.guess_column]["text"] = ""
+        self.guess_labels[self.guess_row][self.guess_column]["text"] = ""
         
         # If we have now reached the first column disable the delete button, there are no letters left to delete in row
         if self.guess_column == 0:
@@ -104,22 +168,21 @@ class Wordy(tk.Tk):
             self.set_keyboard_buttons_enabled(True)
 
     # Function to create the guess list entries at the top of our application
-    def create_guess_list(self):
-        py = 0
+    def create_guess_labels(self):
+        py = 10
         
         # We will create a row for each chance the user has to guess the answer
         for i in range(self.chances):
             px = 110
             
-            self.guess_list.append([])
+            self.guess_labels.append([])
         
             # We will create a container for each letter the user needs to enter for a guess
             for __ in range(self.answer_length):
-                lbl = tk.Button(self, text="", height=2, width=1)
-                lbl.place(x=px, y=py)
-                lbl["state"] = "disabled"
+                label = tk.Label(self, text="", height=1, width=3, borderwidth=2, relief="groove", bg="white")
+                label.place(x=px, y=py)
 
-                self.guess_list[i].append(lbl)
+                self.guess_labels[i].append(label)
                 px += 40
 
             py += 25
@@ -154,20 +217,20 @@ class Wordy(tk.Tk):
         
         # Create the Enter button for our display keyboard
         self.enter_button = tk.Button(self, text=wordy_text.get_enter_button(), command=lambda: self.enter_press(),
-                                      state="disabled", height=2, width=4)
+                                      state="disabled", height=1, width=4)
         self.enter_button.place(x=10, y=py)
         
         # Create the Delete button for our display keyboard
         self.delete_button = tk.Button(self, text=wordy_text.get_delete_button(), command=lambda: self.delete_press(),
-                                       state="disabled", height=2, width=4)
+                                       state="disabled", height=1, width=4)
         self.delete_button.place(x=347, y=py)
 
     # Function to create a button for the keyboard
     def create_keyboard_button(self, letter, px, py):
-        bnt = tk.Button(self, text=letter, command=lambda: self.keyboard_press(letter), height=2, width=1)
-        bnt.place(x=px, y=py)
+        button = tk.Button(self, text=letter, command=lambda: self.keyboard_press(letter), height=1, width=1)
+        button.place(x=px, y=py)
         
-        self.keyboard_buttons[letter] = bnt
+        self.keyboard_buttons[letter] = button
 
     # Function to set all keyboard buttons enabled or disabled
     def set_keyboard_buttons_enabled(self, is_enabled):
@@ -194,5 +257,6 @@ class Wordy(tk.Tk):
 
 # Launch our Wordy application
 if __name__ == '__main__':
-    app = Wordy(wordy_logic.get_random_answer(), 6)
+    app = Wordy()
+    # app = Wordy("grate", 6)
     app.mainloop()
