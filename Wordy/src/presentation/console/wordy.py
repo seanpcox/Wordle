@@ -67,7 +67,7 @@ def __print_result(guesses, raw_answer, answer_found):
         printer.print_guess(answer)
 
 
-# Public method to start our game, optional methods are the number of changes allowed and the answer
+# Public function to start our game, optional methods are the number of changes allowed and the answer
 # By default we allow 6 guesses and choose an answer at random from our allowed answers list
 def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
     # Create our display keyboard, this shows the user all previously tried, wrong position, and correct letters
@@ -96,7 +96,8 @@ def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
     __print_result(guesses, raw_answer, answer_found)
 
 
-# Launch Wordy with defaults, 6 chances and random word selected from our dictionary    
+# Launch Wordy with defaults, 6 chances and random word selected from our 5-letter dictionary    
+# Note: Code can cope with words of N length, but currently we only have 5-letter dictionaries included  
 wordy()
 
 # Launch Word with custom parameters, 4 chances and a chosen word

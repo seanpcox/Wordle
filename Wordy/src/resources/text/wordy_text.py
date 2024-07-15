@@ -2,6 +2,16 @@
 
 # List of all strings we display to the user
 
+# UI Wordy strings
+
+__ui_title = "W O R D Y"
+
+__delete_button_text = "Delete"
+
+__enter_button_text = "Enter"
+
+# Text Wordy strings
+
 __start_title = """-------------------
      W O R D Y
 -------------------"""
@@ -21,6 +31,23 @@ __instruction_text = "Enter {}-letter guess ({}/{}): "
 __invalid_guess_length_text = "Guess must be {} letters"
 
 __invalid_guess_text = "Guess is not in our dictionary"
+
+# Return UI Wordy strings
+
+
+# Function to return the title of our game
+def get_ui_title():
+    return __ui_title
+
+
+# Function to return the delete button text
+def get_delete_button():
+    return __delete_button_text
+
+
+# Function to return the delete button text
+def get_enter_button():
+    return __enter_button_text
 
 
 # Function to return the title of our game
