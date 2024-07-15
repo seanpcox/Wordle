@@ -1,5 +1,6 @@
 # @author: seanpcox
 
+from time import sleep
 from src.common.enum.letter_state import LetterState
 
 # List of ASCII colors used in our program
@@ -63,11 +64,14 @@ def print_space():
 
 
 # Print a list of letters with a space between them marked with the color representing their status compared to the answer
-def print_letter_line(letters, start_spaces=0, is_keyboard=True):
+def print_letter_line(letters, start_spaces=0, is_keyboard=True, sleep_seconds=0):
     for i in range(start_spaces):
         print_space()
     
     for i in range(len(letters)):
+        # We can add some sleep time if we want to reveal each letter at a time
+        sleep(sleep_seconds)
+        
         # A letter in the correct position is printed in green
         if letters[i].state == LetterState.CORRECT:
             print_green_upper(letters[i].value)
@@ -93,8 +97,8 @@ def print_letter_line(letters, start_spaces=0, is_keyboard=True):
 
 
 # Print a guess line with 5 spaces preceding it
-def print_guess(guess):
-    print_letter_line(guess, 5, False)
+def print_guess(guess, sleep_seconds=0):
+    print_letter_line(guess, 5, False, sleep_seconds)
 
 
 # Print all three rows of our keyboard
@@ -108,7 +112,7 @@ def print_keyboard(keyboard):
 
 
 # Print our guess line followed by a keyboard line
-def print_guess_and_keyboard(guess, keyboard):
-    print_guess(guess)
+def print_guess_and_keyboard(guess, keyboard, sleep_seconds=0):
+    print_guess(guess, sleep_seconds)
     print_empty_line()
     print_keyboard(keyboard)

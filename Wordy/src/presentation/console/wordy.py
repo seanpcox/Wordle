@@ -64,7 +64,7 @@ def __print_result(guesses, raw_answer, answer_found):
         # Print a red line
         printer.print_red_line(wordy_text.get_answer_line())
         # Print the answer
-        printer.print_guess(answer)
+        printer.print_guess(answer, 0.3)
 
 
 # Public function to start our game, optional methods are the number of changes allowed and the answer
@@ -86,7 +86,7 @@ def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
         
         wordy_logic.process_guess(raw_guess, guesses, guess_index, raw_answer, keyboard)
     
-        printer.print_guess_and_keyboard(guesses[guess_index], keyboard)
+        printer.print_guess_and_keyboard(guesses[guess_index], keyboard, 0.3)
             
         answer_found = wordy_logic.is_answer_found(guesses[guess_index])
         
