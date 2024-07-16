@@ -36,6 +36,10 @@ __invalid_guess_length_text = "Guess must be {} letters"
 
 __invalid_guess_text = "Guess is not in our dictionary"
 
+__invalid_answer_input = "Supplied answer '{}' is not in our 5 letter answers dictionary"
+
+__invalid_chances_input = "Supplied chances parameter '{}' is not a valid integer between {} and {}"
+
 
 # Function to return the UI title of our game
 def get_ui_title():
@@ -51,9 +55,20 @@ def get_delete_button():
 def get_enter_button():
     return __enter_button_text
 
+
 # Function to get UI win game text
-def get_game_won(guess_attempts):
-    return __game_won_text[guess_attempts]
+def get_game_won(guess_row, chances):
+    # We allowed user defined number of guesses so choose last win entry guess_attempts greater than number of win text entries
+    if guess_row >= len(__game_won_text):
+        # If we guessed on the last attempt then do last win text entry
+        if(guess_row == chances-1):
+            guess_row = len(__game_won_text)-1
+        # Else do second last win guess entry
+        else:
+            guess_row = len(__game_won_text)-2
+    
+    return __game_won_text[guess_row]
+
 
 # Function to return the title of our game
 def get_start_title():
@@ -88,3 +103,14 @@ def get_invalid_guess_length(answer_length):
 # Function to return the error message to our user, explaining the guess word is not in our dictionary
 def get_invalid_guess():
     return __invalid_guess_text
+
+
+# Function to return the error message to out user, explaining that their supplied answer is not in our answers dictionary
+def get_invalid_answer_input(input_answer):
+    return __invalid_answer_input.format(input_answer)
+
+
+# Function to return the error message to our user, explaining that their supplied chances number is out of range
+def get_invalid_chances_input(input_chances, min_chances, max_chances):
+    return __invalid_chances_input.format(input_chances, min_chances, max_chances)
+

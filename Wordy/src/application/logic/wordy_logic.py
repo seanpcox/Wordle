@@ -3,6 +3,7 @@
 import random
 from src.resources.dict.allowed_answers_list import ALLOWED_ANSWERS
 from src.resources.dict.allowed_guesses_set import ALLOWED_GUESSES
+from src.resources.text import wordy_text
 from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
 
@@ -10,6 +11,42 @@ from src.common.object.letter import Letter
 # Return a random answer from our allowed answers dictionary
 def get_random_answer():
     return random.choice(ALLOWED_ANSWERS)
+
+
+def are_init_parameters_valid(raw_answer, chances):
+    try:
+        is_answer_allowed(raw_answer)
+        is_chance_number_allowed(chances)
+    except AttributeError or ValueError as e:
+        print(e)
+        return False
+    
+    return True
+        
+        
+# Test to ensure a supplied answer is in our allowed guesses dictionary, as can be used supplied
+def is_answer_allowed(raw_answer):
+    # Cope with upper case and mixed cases guesses, our dictionary words are all in lower case
+    raw_answer = raw_answer.lower()
+    # perform our test
+    if raw_answer not in ALLOWED_ANSWERS:
+        raise AttributeError(wordy_text.get_invalid_answer_input(raw_answer))
+
+
+# Test to ensure a supplied number of chances is a number and in our allowed chance range, as may be used supplied
+def is_chance_number_allowed(chances):
+    min_chances = 1
+    max_chances = 20
+    
+    # Chances can be user supplied string so test it can be casted to an integer
+    try:
+        chances = int(chances)
+    except ValueError:
+        raise AttributeError(wordy_text.get_invalid_chances_input(chances, min_chances, max_chances))
+    
+    # Test that the supplied chances is within bounds
+    if chances < min_chances or chances > max_chances:
+        raise AttributeError(wordy_text.get_invalid_chances_input(chances, min_chances, max_chances))
 
 
 # Test to ensure a guess is allowed, of the right length and in our allowed guesses dictionary
