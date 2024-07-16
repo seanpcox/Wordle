@@ -14,7 +14,7 @@ class Wordy(tk.Tk):
         # Set our window title and size
         super(self.__class__, self).__init__()
         self.title(wordy_text.get_ui_title())
-        self.geometry('420x270')
+        self.geometry('494x332')
         
         # Set some global variables
         self.raw_answer = raw_answer
@@ -32,6 +32,9 @@ class Wordy(tk.Tk):
         self.keyboard = Keyboard()
         self.keyboard_buttons = {}
         self.create_keyboard(py)
+        
+        # Bind the user's physical keyboard to our application
+        self.bind("<Key>", self.key_handler)
 
     # Function to process a user guess
     def process_guess(self):
@@ -95,6 +98,19 @@ class Wordy(tk.Tk):
         self.set_keyboard_buttons_enabled(False)
         self.set_delete_button_enabled(False)
         self.set_enter_button_enabled(False)
+    
+    # Function to accept input from user's physical keyboard
+    def key_handler(self, event):
+        letter_upper = event.char.upper()
+        
+        if letter_upper not in self.keyboard_buttons:
+            if event.keysym == "Return":
+                self.enter_press()
+            if event.keysym == "BackSpace":
+                self.delete_press()
+            return
+        
+        self.keyboard_press(event.char.upper())
     
     # Function to execute a Keyboard Letter action
     def keyboard_press(self, letter):
@@ -169,11 +185,11 @@ class Wordy(tk.Tk):
 
     # Function to create the guess list entries at the top of our application
     def create_guess_labels(self):
-        py = 10
+        py = 20
         
         # We will create a row for each chance the user has to guess the answer
         for i in range(self.chances):
-            px = 110
+            px = 148
             
             self.guess_labels.append([])
         
@@ -185,45 +201,45 @@ class Wordy(tk.Tk):
                 self.guess_labels[i].append(label)
                 px += 40
 
-            py += 25
+            py += 30
             
         return py
 
     # Function to create the keyboard at the bottom of the application
     def create_keyboard(self, py):
-        px = 10
+        px = 20
         py += 25
         
         # Create the first row of letters for our display keyboard
         for letter in self.keyboard.get_keyboard_row_1():
             self.create_keyboard_button(letter.value.upper(), px, py)
-            px += 40
+            px += 45
         
-        px = 30
-        py += 25
+        px = 45
+        py += 30
         
         # Create the second row of letters for our display keyboard
         for letter in self.keyboard.get_keyboard_row_2():
             self.create_keyboard_button(letter.value.upper(), px, py)
-            px += 40
+            px += 45
         
-        px = 70
-        py += 25
+        px = 90
+        py += 30
         
         # Create the third row of letters for our display keyboard
         for letter in self.keyboard.get_keyboard_row_3():
             self.create_keyboard_button(letter.value.upper(), px, py)
-            px += 40
+            px += 45
         
         # Create the Enter button for our display keyboard
         self.enter_button = tk.Button(self, text=wordy_text.get_enter_button(), command=lambda: self.enter_press(),
                                       state="disabled", height=1, width=4)
-        self.enter_button.place(x=10, y=py)
+        self.enter_button.place(x=18, y=py)
         
         # Create the Delete button for our display keyboard
         self.delete_button = tk.Button(self, text=wordy_text.get_delete_button(), command=lambda: self.delete_press(),
                                        state="disabled", height=1, width=4)
-        self.delete_button.place(x=347, y=py)
+        self.delete_button.place(x=405, y=py)
 
     # Function to create a button for the keyboard
     def create_keyboard_button(self, letter, px, py):
