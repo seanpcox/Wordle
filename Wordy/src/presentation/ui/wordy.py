@@ -11,10 +11,14 @@ from src.resources.text import wordy_text
 class Wordy(tk.Tk):
 
     def __init__(self, raw_answer=wordy_logic.get_random_answer(), chances=6):
-        # Set our window title and size
+        # Set our window title
         super(self.__class__, self).__init__()
         self.title(wordy_text.get_ui_title())
-        self.geometry('494x332')
+        
+        # Set our window Size, width is fixed and height depends on number of chances allowed
+        screen_width = 494
+        screen_height = 160 + (chances * 30)
+        self.geometry("{}x{}".format(screen_width, screen_height))
         
         # Set some global variables
         self.raw_answer = raw_answer
@@ -27,6 +31,9 @@ class Wordy(tk.Tk):
         self.guess_row = 0
         self.guess_column = 0
         py = self.create_guess_labels()
+        
+        # Create out status label to display information to our user
+        py = self.create_status_label(py)
         
         # Create our display keyboard at the bottom of the application
         self.keyboard = Keyboard()
@@ -49,6 +56,7 @@ class Wordy(tk.Tk):
         
         # If our guess is not allowed then return and do not move to the next guess or end of game
         if not is_allowed_guess:
+            self.update_status_label(wordy_text.get_invalid_guess(), "orange")
             return False
         
         # Process our guess to determine which letters are correct, in the wrong place, or not in the answer
@@ -86,18 +94,25 @@ class Wordy(tk.Tk):
         is_answer_found = wordy_logic.is_answer_found(self.guesses[self.guess_row])
         
         if is_answer_found:
-            self.game_over()
+            self.game_over(True)
             return False
         
         # We had a valid guess but did not find the answer, return True to indicate we can move to next guess
         return True
     
     # Function to execute when the current game has ended
-    def game_over(self):
+    def game_over(self, is_win):
         # Disable all buttons
         self.set_keyboard_buttons_enabled(False)
         self.set_delete_button_enabled(False)
         self.set_enter_button_enabled(False)
+        
+        # Update the status label to either indicate varying levels of congratulations (based on number of guesses taken)
+        if is_win:
+            self.update_status_label(wordy_text.get_game_won(self.guess_row), "lightgreen")
+        # Else update the status label to display the answer the used failed to guess
+        else:
+            self.update_status_label(self.raw_answer.upper(), "coral1")
     
     # Function to accept input from user's physical keyboard
     def key_handler(self, event):
@@ -114,6 +129,9 @@ class Wordy(tk.Tk):
     
     # Function to execute a Keyboard Letter action
     def keyboard_press(self, letter):
+        # Clear the status label
+        self.update_status_label()
+        
         # If the user has already reached the letter length for a guess then return
         if self.guess_column == self.answer_length:
             return
@@ -135,8 +153,13 @@ class Wordy(tk.Tk):
         
     # Function to execute the Enter button action
     def enter_press(self):
+        # Clear the status label
+        self.update_status_label()
+        
         # If there are not enough letters yet for a guess return
         if self.guess_column < self.answer_length:
+            # Update our status label to indicate not enough letters have been typed
+            self.update_status_label(wordy_text.get_invalid_guess_length(self.answer_length), "orange")
             return 
         
         # Process our users current guess
@@ -152,7 +175,7 @@ class Wordy(tk.Tk):
         
         # If this is the last allowed guess process the game over function
         if self.guess_row == self.chances - 1:
-            self.game_over()
+            self.game_over(False)
             return
         
         # If not the last guess enable the keyboard for the next guess
@@ -164,6 +187,9 @@ class Wordy(tk.Tk):
     
     # Function to execute the Delete button action
     def delete_press(self):
+        # Clear the status label
+        self.update_status_label()
+        
         # If already at the first column return, we cannot delete further
         if self.guess_column == 0:
             return
@@ -182,14 +208,19 @@ class Wordy(tk.Tk):
         if self.guess_column == self.answer_length - 1:
             self.set_enter_button_enabled(False)
             self.set_keyboard_buttons_enabled(True)
-
+    
+    # Function to update our on screen status label
+    def update_status_label(self, text="", bg="lightgray"):
+        self.status_label["text"] = text
+        self.status_label["bg"] = bg
+            
     # Function to create the guess list entries at the top of our application
     def create_guess_labels(self):
         py = 20
         
         # We will create a row for each chance the user has to guess the answer
         for i in range(self.chances):
-            px = 148
+            px = 150
             
             self.guess_labels.append([])
         
@@ -205,10 +236,17 @@ class Wordy(tk.Tk):
             
         return py
 
+    # Function to create the status label to display information to the user
+    def create_status_label(self, py):
+        py += 5
+        self.status_label = tk.Label(self, text="", height=1, width=52, borderwidth=2, bg="lightgray")
+        self.status_label.place(x=10, y=py)
+        return py
+
     # Function to create the keyboard at the bottom of the application
     def create_keyboard(self, py):
         px = 20
-        py += 25
+        py += 30
         
         # Create the first row of letters for our display keyboard
         for letter in self.keyboard.get_keyboard_row_1():
@@ -274,5 +312,5 @@ class Wordy(tk.Tk):
 # Launch our Wordy application
 if __name__ == '__main__':
     app = Wordy()
-    # app = Wordy("grate", 6)
+    #app = Wordy("grate", 3)
     app.mainloop()

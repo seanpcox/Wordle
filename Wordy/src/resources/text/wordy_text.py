@@ -10,6 +10,8 @@ __delete_button_text = "Delete"
 
 __enter_button_text = "Enter"
 
+__game_won_text = ["Genius!", "Magnificent!", "Impressive!", "Splendid!", "Great!", "Phew!"]
+
 # Text Wordy strings
 
 __start_title = """-------------------
@@ -26,29 +28,32 @@ H A R D   L U C K !
 
 __answer_line = "     ---------"
 
+# Common Wordy strings
+
 __instruction_text = "Enter {}-letter guess ({}/{}): "
 
 __invalid_guess_length_text = "Guess must be {} letters"
 
 __invalid_guess_text = "Guess is not in our dictionary"
 
-# Return UI Wordy strings
 
-
-# Function to return the title of our game
+# Function to return the UI title of our game
 def get_ui_title():
     return __ui_title
 
 
-# Function to return the delete button text
+# Function to return the UI delete button text
 def get_delete_button():
     return __delete_button_text
 
 
-# Function to return the delete button text
+# Function to return the UI delete button text
 def get_enter_button():
     return __enter_button_text
 
+# Function to get UI win game text
+def get_game_won(guess_attempts):
+    return __game_won_text[guess_attempts]
 
 # Function to return the title of our game
 def get_start_title():
