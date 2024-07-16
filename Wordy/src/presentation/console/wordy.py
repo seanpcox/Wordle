@@ -1,5 +1,6 @@
 # @author: seanpcox
 
+import sys
 from src.resources.text import wordy_text
 from src.common.enum.letter_state import LetterState
 from src.common.object.letter import Letter
@@ -66,14 +67,21 @@ def __print_result(guesses, raw_answer, answer_found):
         # Print the answer
         printer.print_guess(answer, 0.3)
 
+    printer.print_empty_line()
 
-# Public function to start our game, optional methods are the number of changes allowed and the answer
-# By default we allow 6 guesses and choose an answer at random from our allowed answers list
-def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
+# Function to start our game, optional methods are the number of changes allowed and the answer
+# By default we choose an answer at random from our allowed answers list and allow 6 guess attempts
+def __wordy(raw_answer=wordy_logic.get_random_answer(), chances=6):
+    # Validate initialization parameters, as may be used supplied
+    if not wordy_logic.are_init_parameters_valid(raw_answer, chances):
+        # Exit the program if inputs are invalid so we do not try to launch the application
+        sys.exit(-1)
+    
     # Create our display keyboard, this shows the user all previously tried, wrong position, and correct letters
     keyboard = Keyboard()
     guesses = []
     answer_found = False
+    chances = int(chances) # Chances will be a string number if user supplied so update
     
     printer.print_blue_line(wordy_text.get_start_title())
     
@@ -96,9 +104,17 @@ def wordy(chances=6, raw_answer=wordy_logic.get_random_answer()):
     __print_result(guesses, raw_answer, answer_found)
 
 
-# Launch Wordy with defaults, 6 chances and random word selected from our 5-letter dictionary    
 # Note: Code can cope with words of N length, but currently we only have 5-letter dictionaries included  
-wordy()
-
-# Launch Word with custom parameters, 4 chances and a chosen word
-# wordy(4, "snake")
+# Launch our Wordy application
+if __name__ == '__main__':
+    # Note: First parameter is always the modules name
+    # If we have one user supplied parameter it is a user supplied answer
+    if len(sys.argv) == 2:
+        __wordy(sys.argv[1])
+    # If we have a second user supplied parameter it is the number of attempted guesses they are allowing
+    # We ignore any further arguments if supplied
+    elif len(sys.argv) > 2:
+        __wordy(sys.argv[1], sys.argv[2])
+    # Else use our program defaults of random answer from our answer dictionary and 6 guesses allowed
+    else:
+        __wordy()

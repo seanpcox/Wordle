@@ -7,7 +7,7 @@ from src.common.enum.letter_state import LetterState
 __text_blue = "\033[34m{}\033[00m"
 __text_red = "\033[31m{}\033[00m"
 __text_green = "\033[32m{}\033[00m"
-__text_orange = "\033[38;2;255;165;0m{}\033[00m"
+__text_orange = "\033[33m{}\033[00m"
 __text_dark_gray = "\033[90m{}\033[00m"
 __text_light_gray = "\033[37m{}\033[00m"
 __text_black = "\033[99m{}\033[00m"

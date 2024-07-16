@@ -315,15 +315,22 @@ class Wordy(tk.Tk):
             self.enter_button["state"] = "disabled"
 
 
+# Note: Code can cope with words of N length, but currently we only have 5-letter dictionaries included  
 # Launch our Wordy application
 if __name__ == '__main__':
     app = None
     
+    # Note: First parameter is always the modules name
+    # If we have one user supplied parameter it is a user supplied answer
     if len(sys.argv) == 2:
         app = Wordy(sys.argv[1])
+    # If we have a second user supplied parameter it is the number of attempted guesses they are allowing
     elif len(sys.argv) > 2:
         app = Wordy(sys.argv[1], sys.argv[2])
+    # Else use our program defaults of random answer from our answer dictionary and 6 guesses allowed
+    # We ignore any further arguments if supplied
     else:
         app = Wordy()
     
+    # Launch the application
     app.mainloop()
