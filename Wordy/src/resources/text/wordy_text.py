@@ -28,11 +28,13 @@ __lose_title = """-------------------
 H A R D   L U C K !
 -------------------"""
 
+__instruction_text = "Enter {}-letter guess ({}/{}): "
+
 __answer_line = "     ---------"
 
 # Common Wordy strings
 
-__instruction_text = "Enter {}-letter guess ({}/{}): "
+__ui_instruction_text = "Guess the {} letter word"
 
 __invalid_guess_length_text = "Guess must be {} letters"
 
@@ -96,6 +98,10 @@ def get_lose_title():
 def get_answer_line():
     return __answer_line
 
+
+# Function to return the instruction message for our user, shown at the start of a UI game
+def get_ui_instruction(answer_length):
+    return __ui_instruction_text.format(answer_length)
 
 # Function to return the instruction message for our user, shown during each guess
 def get_instruction(answer_length, guess_number, chances):

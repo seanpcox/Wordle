@@ -284,7 +284,8 @@ class Wordy(tk.Tk):
     # Function to create the status label to display information to the user
     def __create_status_label(self, py):
         py += 10
-        self.status_label = tk.Label(self, text="", height=1, width=52, borderwidth=2, bg="lightgray", relief="raised")
+        self.status_label = tk.Label(self, text=wordy_text.get_ui_instruction(self.answer_length), 
+                                     height=1, width=52, borderwidth=2, bg="lightgray", relief="raised")
         self.status_label.place(x=10, y=py)
         return py
 
