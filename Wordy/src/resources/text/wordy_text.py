@@ -61,11 +61,11 @@ def get_game_won(guess_row, chances):
     # We allowed user defined number of guesses so choose last win entry guess_attempts greater than number of win text entries
     if guess_row >= len(__game_won_text):
         # If we guessed on the last attempt then do last win text entry
-        if(guess_row == chances-1):
-            guess_row = len(__game_won_text)-1
+        if(guess_row == chances - 1):
+            guess_row = len(__game_won_text) - 1
         # Else do second last win guess entry
         else:
-            guess_row = len(__game_won_text)-2
+            guess_row = len(__game_won_text) - 2
     
     return __game_won_text[guess_row]
 

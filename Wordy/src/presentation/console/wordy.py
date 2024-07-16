@@ -69,6 +69,7 @@ def __print_result(guesses, raw_answer, answer_found):
 
     printer.print_empty_line()
 
+
 # Function to start our game, optional methods are the number of changes allowed and the answer
 # By default we choose an answer at random from our allowed answers list and allow 6 guess attempts
 def __wordy(raw_answer=wordy_logic.get_random_answer(), chances=6):
@@ -81,7 +82,7 @@ def __wordy(raw_answer=wordy_logic.get_random_answer(), chances=6):
     keyboard = Keyboard()
     guesses = []
     answer_found = False
-    chances = int(chances) # Chances will be a string number if user supplied so update
+    chances = int(chances)  # Chances will be a string number if user supplied so update
     
     printer.print_blue_line(wordy_text.get_start_title())
     
