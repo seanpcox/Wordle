@@ -2,3 +2,5 @@
 Wordy/.settings/
 .DS_Store
 **/__pycache__/
+build/
+*.spec
