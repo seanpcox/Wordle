@@ -16,8 +16,8 @@ Code has been written to deal with answers of any length, however currently we o
 
 ## Screenshots
 <img width="550" alt="Screenshot 2024-07-16 at 7 18 23 PM" src="Wordy/src/resources/images/Wordy_Screenshot_UI_1.png">
-<img width="534" alt="Screenshot 2024-07-16 at 7 59 28 PM" src="Wordy/src/resources/images/Wordy_Screenshot_UI_3.png">
-<img width="557" alt="Screenshot 2024-07-16 at 7 19 07 PM" src="Wordy/src/resources/images/Wordy_Screenshot_UI_2.png">
+<img width="534" alt="Screenshot 2024-07-16 at 7 59 28 PM" src="Wordy/src/resources/images/Wordy_Screenshot_UI_2.png">
+<img width="557" alt="Screenshot 2024-07-16 at 7 19 07 PM" src="Wordy/src/resources/images/Wordy_Screenshot_UI_3.png">
 <img width="271" alt="Screenshot 2024-07-13 at 8 46 25 PM" src="Wordy/src/resources/images/Wordy_Screenshot_Console.png">
 
 ## Notes
