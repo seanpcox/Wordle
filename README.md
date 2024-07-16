@@ -26,4 +26,4 @@ Code has been written to deal with answers of any length, however currently we o
 * Python version 3.12.4 was used
 * Text Only version uses only libraries contained within the Python version 3.12.4 install
 * Graphical version requires Tkinter, and version used for development was Tk version 8.6.14
-* Graphical version will accept keystrokes from with the graphical keyboard or user's manual keyboard
+* Graphical version will accept keystrokes from the graphical keyboard or the user's manual keyboard
