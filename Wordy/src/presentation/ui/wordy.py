@@ -11,7 +11,7 @@ from src.resources.text import wordy_text
 
 class Wordy(tk.Tk):
 
-    def __init__(self, raw_answer=wordy_logic.get_random_answer(), chances=6):
+    def __init__(self, chances=6, raw_answer=wordy_logic.get_random_answer()):
         # Validate initialization parameters, as may be used supplied
         if not wordy_logic.are_init_parameters_valid(raw_answer, chances):
             # Exit the program if inputs are invalid so we do not try to launch the application
@@ -22,32 +22,21 @@ class Wordy(tk.Tk):
         self.title(wordy_text.get_ui_title())
         
         # Set some global variables
+        global app
+        app = self
         self.raw_answer = raw_answer
         self.answer_length = len(raw_answer)
-        self.chances = int(chances) # Chances will be a string number if user supplied so update
+        self.chances = int(chances)  # Chances will be a string number if user supplied so update
         self.guesses = []
         
-        # Set our window Size, width is fixed and height depends on number of chances allowed
-        screen_width = 494
-        screen_height = 160 + (self.chances * 30)
-        self.geometry("{}x{}".format(screen_width, screen_height))
-
-        # Create our guess list at the top of the application
-        self.guess_labels = []
-        self.guess_row = 0
-        self.guess_column = 0
-        py = self.__create_guess_labels()
-        
-        # Create out status label to display information to our user
-        py = self.__create_status_label(py)
-        
-        # Create our display keyboard at the bottom of the application
-        self.keyboard = Keyboard()
-        self.keyboard_buttons = {}
-        self.__create_keyboard(py)
+        # Create the Wordy UI components
+        self.__create_components()
         
         # Bind the user's physical keyboard to our application
         self.bind("<Key>", self.__key_handler)
+        
+        # Launch the application
+        self.mainloop()
 
     # Function to process a user guess
     def __process_guess(self):
@@ -219,10 +208,60 @@ class Wordy(tk.Tk):
     def __update_status_label(self, text="", bg="lightgray"):
         self.status_label["text"] = text
         self.status_label["bg"] = bg
+    
+    # Function to start to create the components to place on our window
+    def __create_components(self):
+        # Width and height of our application, width is fixed and height depends on number of chances allowed
+        width = 494
+        height = 205 + (self.chances * 30)
+        
+        # get user's screen width and height
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+    
+        # calculate position x and y coordinates
+        x = (screen_width / 2) - (width / 2)
+        y = (screen_height / 2) - (height / 2)
+    
+        # Set our window size, screen location, and prevent resize
+        self.geometry('%dx%d+%d+%d' % (width, height, x, y))
+        self.maxsize(width, height) 
+        self.resizable(False, False) 
+
+        # Create our menu buttons at the top of the application
+        py = self.__create_menu(width)
+
+        # Create our guess list at the middle of the application
+        self.guess_labels = []
+        self.guess_row = 0
+        self.guess_column = 0
+        py = self.__create_guess_labels(py)
+        
+        # Create out status label to display information to our user
+        py = self.__create_status_label(py)
+        
+        # Create our display keyboard at the bottom of the application
+        self.keyboard = Keyboard()
+        self.keyboard_buttons = {}
+        self.__create_keyboard(py)
+            
+    # Function to create the top menu tool bar        
+    def __create_menu(self, window_width):
+        py = 36
+        
+        # Create a frame for the menu tool bar
+        menu_frame = tk.Frame(self, height=py, width=window_width + 1, borderwidth=2, relief="groove")
+        menu_frame.place(x=0, y=0)
+        
+        # Create a New button to close the existing Wordy and re-launch Wordy 
+        new_button = tk.Button(menu_frame, text=wordy_text.get_new_button(), command=lambda: start_wordy(), height=1, width=2)
+        new_button.place(x=0, y=0)
+        
+        return py
             
     # Function to create the guess list entries at the top of our application
-    def __create_guess_labels(self):
-        py = 20
+    def __create_guess_labels(self, py):
+        py = 20 + py
         
         # We will create a row for each chance the user has to guess the answer
         for i in range(self.chances):
@@ -232,7 +271,7 @@ class Wordy(tk.Tk):
         
             # We will create a container for each letter the user needs to enter for a guess
             for __ in range(self.answer_length):
-                label = tk.Label(self, text="", height=1, width=3, borderwidth=2, relief="groove", bg="white")
+                label = tk.Label(self, text="", height=1, width=3, borderwidth=2, relief="raised", bg="white")
                 label.place(x=px, y=py)
 
                 self.guess_labels[i].append(label)
@@ -244,15 +283,15 @@ class Wordy(tk.Tk):
 
     # Function to create the status label to display information to the user
     def __create_status_label(self, py):
-        py += 5
-        self.status_label = tk.Label(self, text="", height=1, width=52, borderwidth=2, bg="lightgray")
+        py += 10
+        self.status_label = tk.Label(self, text="", height=1, width=52, borderwidth=2, bg="lightgray", relief="raised")
         self.status_label.place(x=10, y=py)
         return py
 
     # Function to create the keyboard at the bottom of the application
     def __create_keyboard(self, py):
         px = 20
-        py += 30
+        py += 35
         
         # Create the first row of letters for our display keyboard
         for letter in self.keyboard.get_keyboard_row_1():
@@ -320,17 +359,23 @@ class Wordy(tk.Tk):
 if __name__ == '__main__':
     app = None
     
-    # Note: First parameter is always the modules name
-    # If we have one user supplied parameter it is a user supplied answer
-    if len(sys.argv) == 2:
-        app = Wordy(sys.argv[1])
-    # If we have a second user supplied parameter it is the number of attempted guesses they are allowing
-    elif len(sys.argv) > 2:
-        app = Wordy(sys.argv[1], sys.argv[2])
-    # Else use our program defaults of random answer from our answer dictionary and 6 guesses allowed
-    # We ignore any further arguments if supplied
-    else:
-        app = Wordy()
-    
-    # Launch the application
-    app.mainloop()
+    def start_wordy():
+        global app
+        
+        if not app == None:
+            app.quit()
+            app.destroy()
+        
+        # Note: First parameter is always the modules name
+        # If we have one user supplied parameter it is a user supplied answer
+        if len(sys.argv) == 2:
+            app = Wordy(sys.argv[1])
+        # If we have a second user supplied parameter it is the number of attempted guesses they are allowing
+        elif len(sys.argv) > 2:
+            app = Wordy(sys.argv[1], sys.argv[2])
+        # Else use our program defaults of random answer from our answer dictionary and 6 guesses allowed
+        # We ignore any further arguments if supplied
+        else:
+            app = Wordy()
+            
+    start_wordy()

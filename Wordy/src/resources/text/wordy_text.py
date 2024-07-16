@@ -6,6 +6,8 @@
 
 __ui_title = "W O R D Y"
 
+__new_button_text = "New"
+
 __delete_button_text = "Delete"
 
 __enter_button_text = "Enter"
@@ -44,6 +46,11 @@ __invalid_chances_input = "Supplied chances parameter '{}' is not a valid intege
 # Function to return the UI title of our game
 def get_ui_title():
     return __ui_title
+
+
+# Function to return the UI new button text
+def get_new_button():
+    return __new_button_text
 
 
 # Function to return the UI delete button text
