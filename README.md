@@ -4,11 +4,13 @@ Wordy picks a random 5-letter word, supplied from an internal dictionary, and th
 
 It may be played in graphical or text only mode, and via an executable (MacOS only) or Python
 
+Note: Tkinter is required to launch the graphical version: `pip install tk`
+
 ### Launch With Python
 
-Graphical: `python3 -m src.presentation.ui.wordy`
+Graphical: `python -m src.presentation.ui.wordy`
 
-Text Only: `python3 -m src.presentation.console.wordy`
+Text Only: `python -m src.presentation.console.wordy`
 
 It may also be launched with the following optional user supplied parameters:
 
