@@ -111,15 +111,21 @@ class Wordy(tk.Tk):
     
     # Function to accept input from user's physical keyboard
     def __key_handler(self, event):
+        # Our keyboard dictionary uses A-Z letters as keys
         letter_upper = event.char.upper()
         
+        # If the user has not pressed an A-Z key then process it
         if letter_upper not in self.keyboard_buttons:
+            # User has hit enter so process it
             if event.keysym == "Return":
                 self.__enter_press()
-            if event.keysym == "BackSpace":
+            # User has hit delete so process it
+            elif event.keysym == "BackSpace":
                 self.__delete_press()
+            # No other non A-Z keys are supported so exit
             return
         
+        # If the user has pressed an A-Z key then process it
         self.__keyboard_press(event.char.upper())
     
     # Function to execute a Keyboard Letter action
@@ -203,11 +209,6 @@ class Wordy(tk.Tk):
         if self.guess_column == self.answer_length - 1:
             self.__set_enter_button_enabled(False)
             self.__set_keyboard_buttons_enabled(True)
-    
-    # Function to update our on screen status label
-    def __update_status_label(self, text="", bg="lightgray"):
-        self.status_label["text"] = text
-        self.status_label["bg"] = bg
     
     # Function to start to create the components to place on our window
     def __create_components(self):
@@ -353,6 +354,11 @@ class Wordy(tk.Tk):
             self.enter_button["state"] = "normal"
         else:
             self.enter_button["state"] = "disabled"
+    
+    # Function to update our on screen status label
+    def __update_status_label(self, text="", bg="lightgray"):
+        self.status_label["text"] = text
+        self.status_label["bg"] = bg
 
 
 # Note: Code can cope with words of N length, but currently we only have 5-letter dictionaries included  
