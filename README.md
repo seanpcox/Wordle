@@ -2,7 +2,7 @@
 ## Instructions
 Wordy picks a random 5-letter word, supplied from an internal dictionary, and the user has six attempts to guess the answer.
 
-It may be played in graphical or text only mode, and via an executable (MacOS only) or Python
+It may be played on your desktop in either graphical or text only mode, and may be launched via an executable (MacOS only) or with Python.
 
 Note: Tkinter is required to launch the graphical version: `pip install tk`
 
