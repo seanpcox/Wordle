@@ -1,4 +1,4 @@
-# Wordy Desktop
+# Wordy
 ## Instructions
 Wordy picks a random 5-letter word, supplied from an internal dictionary, and the user has six attempts to guess the answer.
 
