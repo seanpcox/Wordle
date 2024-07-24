@@ -3,23 +3,23 @@
 import tkinter as tk
 import sys
 from time import sleep
-from src.application.logic import wordy_logic
+from src.application.logic import birdy_logic
 from src.common.enum.letter_state import LetterState
 from src.common.object.keyboard import Keyboard
-from src.resources.text import wordy_text
+from src.resources.text import birdy_text
 
 
-class Wordy(tk.Tk):
+class Birdy(tk.Tk):
 
-    def __init__(self, chances=6, raw_answer=wordy_logic.get_random_answer()):
+    def __init__(self, chances=6, raw_answer=birdy_logic.get_random_answer()):
         # Validate initialization parameters, as may be used supplied
-        if not wordy_logic.are_init_parameters_valid(raw_answer, chances):
+        if not birdy_logic.are_init_parameters_valid(raw_answer, chances):
             # Exit the program if inputs are invalid so we do not try to launch the application
             sys.exit(-1)
         
         # Set our window title
         super(self.__class__, self).__init__()
-        self.title(wordy_text.get_ui_title())
+        self.title(birdy_text.get_ui_title())
         
         # Set some global variables
         global app
@@ -29,7 +29,7 @@ class Wordy(tk.Tk):
         self.chances = int(chances)  # Chances will be a string number if user supplied so update
         self.guesses = []
         
-        # Create the Wordy UI components
+        # Create the Birdy UI components
         self.__create_components()
         
         # Bind the user's physical keyboard to our application
@@ -47,15 +47,15 @@ class Wordy(tk.Tk):
             raw_guess += self.guess_labels[self.guess_row][column]["text"]
         
         # Test is the guess is allowed i.e. correct length and in our allowed guesses dictionary
-        is_allowed_guess = wordy_logic.is_guess_allowed(raw_guess, self.answer_length)
+        is_allowed_guess = birdy_logic.is_guess_allowed(raw_guess, self.answer_length)
         
         # If our guess is not allowed then return and do not move to the next guess or end of game
         if not is_allowed_guess:
-            self.__update_status_label(wordy_text.get_invalid_guess(), "orange")
+            self.__update_status_label(birdy_text.get_invalid_guess(), "orange")
             return False
         
         # Process our guess to determine which letters are correct, in the wrong place, or not in the answer
-        wordy_logic.process_guess(raw_guess, self.guesses, self.guess_row, self.raw_answer, self.keyboard)
+        birdy_logic.process_guess(raw_guess, self.guesses, self.guess_row, self.raw_answer, self.keyboard)
         
         # Update our guess labels in the current guess row to indicate each letter's status
         for column in range(self.answer_length):
@@ -86,7 +86,7 @@ class Wordy(tk.Tk):
             self.update()
         
         # Check if our current guess was the answer
-        is_answer_found = wordy_logic.is_answer_found(self.guesses[self.guess_row])
+        is_answer_found = birdy_logic.is_answer_found(self.guesses[self.guess_row])
         
         if is_answer_found:
             self.__game_over(True)
@@ -104,7 +104,7 @@ class Wordy(tk.Tk):
         
         # Update the status label to either indicate varying levels of congratulations (based on number of guesses taken)
         if is_win:
-            self.__update_status_label(wordy_text.get_game_won(self.guess_row, self.chances), "lightgreen")
+            self.__update_status_label(birdy_text.get_game_won(self.guess_row, self.chances), "lightgreen")
         # Else update the status label to display the answer the used failed to guess
         else:
             self.__update_status_label(self.raw_answer.upper(), "coral1")
@@ -160,7 +160,7 @@ class Wordy(tk.Tk):
         # If there are not enough letters yet for a guess return
         if self.guess_column < self.answer_length:
             # Update our status label to indicate not enough letters have been typed
-            self.__update_status_label(wordy_text.get_invalid_guess_length(self.answer_length), "orange")
+            self.__update_status_label(birdy_text.get_invalid_guess_length(self.answer_length), "orange")
             return 
         
         # Process our users current guess
@@ -254,8 +254,8 @@ class Wordy(tk.Tk):
         menu_frame = tk.Frame(self, height=py, width=window_width + 1, borderwidth=2, relief="groove")
         menu_frame.place(x=0, y=0)
         
-        # Create a New button to close the existing Wordy and re-launch Wordy 
-        new_button = tk.Button(menu_frame, text=wordy_text.get_new_button(), command=lambda: start_wordy(), height=1, width=2)
+        # Create a New button to close the existing Birdy Game and re-launch a new Birdy Game 
+        new_button = tk.Button(menu_frame, text=birdy_text.get_new_button(), command=lambda: start_birdy(), height=1, width=2)
         new_button.place(x=0, y=0)
         
         return py
@@ -285,7 +285,7 @@ class Wordy(tk.Tk):
     # Function to create the status label to display information to the user
     def __create_status_label(self, py):
         py += 10
-        self.status_label = tk.Label(self, text=wordy_text.get_ui_instruction(self.answer_length), 
+        self.status_label = tk.Label(self, text=birdy_text.get_ui_instruction(self.answer_length), 
                                      height=1, width=52, borderwidth=2, bg="lightgray", relief="raised")
         self.status_label.place(x=10, y=py)
         return py
@@ -317,12 +317,12 @@ class Wordy(tk.Tk):
             px += 45
         
         # Create the Enter button for our display keyboard
-        self.enter_button = tk.Button(self, text=wordy_text.get_enter_button(), command=lambda: self.__enter_press(),
+        self.enter_button = tk.Button(self, text=birdy_text.get_enter_button(), command=lambda: self.__enter_press(),
                                       state="disabled", height=1, width=4)
         self.enter_button.place(x=18, y=py)
         
         # Create the Delete button for our display keyboard
-        self.delete_button = tk.Button(self, text=wordy_text.get_delete_button(), command=lambda: self.__delete_press(),
+        self.delete_button = tk.Button(self, text=birdy_text.get_delete_button(), command=lambda: self.__delete_press(),
                                        state="disabled", height=1, width=4)
         self.delete_button.place(x=405, y=py)
 
@@ -362,11 +362,11 @@ class Wordy(tk.Tk):
 
 
 # Note: Code can cope with words of N length, but currently we only have 5-letter dictionaries included  
-# Launch our Wordy application
+# Launch our Birdy application
 if __name__ == '__main__':
     app = None
     
-    def start_wordy():
+    def start_birdy():
         global app
         
         if not app == None:
@@ -376,13 +376,13 @@ if __name__ == '__main__':
         # Note: First parameter is always the modules name
         # If we have one user supplied parameter it is a user supplied answer
         if len(sys.argv) == 2:
-            app = Wordy(sys.argv[1])
+            app = Birdy(sys.argv[1])
         # If we have a second user supplied parameter it is the number of attempted guesses they are allowing
         elif len(sys.argv) > 2:
-            app = Wordy(sys.argv[1], sys.argv[2])
+            app = Birdy(sys.argv[1], sys.argv[2])
         # Else use our program defaults of random answer from our answer dictionary and 6 guesses allowed
         # We ignore any further arguments if supplied
         else:
-            app = Wordy()
+            app = Birdy()
             
-    start_wordy()
+    start_birdy()

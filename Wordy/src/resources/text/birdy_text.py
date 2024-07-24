@@ -2,9 +2,9 @@
 
 # List of all strings we display to the user
 
-# UI Wordy strings
+# UI Birdy name strings
 
-__ui_title = "W O R D Y"
+__ui_title = "B I R D Y"
 
 __new_button_text = "New"
 
@@ -12,12 +12,12 @@ __delete_button_text = "Delete"
 
 __enter_button_text = "Enter"
 
-__game_won_text = ["Genius!", "Magnificent!", "Impressive!", "Splendid!", "Great!", "Phew!"]
+__game_won_text = ["Ace! Ventura", "Mystic Meg Levels", "Inconceivable! ", "Superman Cheats", "Great... Scott", "First Time Playing?"]
 
-# Text Wordy strings
+# Text Birdy strings
 
 __start_title = """-------------------
-     W O R D Y
+     B I R D Y
 -------------------"""
 
 __win_title = """-------------------
@@ -32,7 +32,7 @@ __instruction_text = "Enter {}-letter guess ({}/{}): "
 
 __answer_line = "     ---------"
 
-# Common Wordy strings
+# Common Birdy strings
 
 __ui_instruction_text = "Guess the {} letter word"
 
