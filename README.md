@@ -1,6 +1,6 @@
 # Birdy
 ## Instructions
-I had a pet... birdy... and I named it a random five letter word. But now I forget my birdy's... name. It's lost, and I need to call it back!
+I have a pet birdy, and I named it... a random five letter word. But now I have forgot my birdy's name. It's lost, and I need to call it back!
 
 You have six attempts to remind me of my birdy's name.
 
