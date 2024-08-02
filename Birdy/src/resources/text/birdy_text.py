@@ -12,7 +12,7 @@ __delete_button_text = "Delete"
 
 __enter_button_text = "Enter"
 
-__game_won_text = ["Ace! Ventura", "Mystic Meg Levels", "Inconceivable! ", "Superman Cheats", "Great... Scott", "First Time Playing?"]
+__game_won_text = ["Ace!", "Amazing!", "Super! ", "Great!", "Impressive!", "Well done!"]
 
 # Text Birdy strings
 
