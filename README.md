@@ -1,8 +1,6 @@
-# Birdy
+# Wordy
 ## Instructions
-I have a pet birdy, and I named it... a random five letter word. But now I have forgot my birdy's name. It's lost, and I need to call it back!
-
-You have six attempts to remind me of my birdy's name.
+Guess the random five letter word. You have six attempts. Solve using the process of letter elimination.
 
 It may be played on your desktop in either graphical or text only mode depending which Python module you launch.
 
